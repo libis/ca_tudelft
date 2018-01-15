@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CollectiveAccess Providence\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 14:04-0400\n"
-"PO-Revision-Date: 2017-04-27 14:04-0400\n"
+"PO-Revision-Date: 2018-01-15 10:42+0100\n"
 "Last-Translator: Seth <Seth@collectiveacess.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/"
 "collectiveaccess/collectiveaccess-providence/language/nl_NL/)\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: _t;_p;_\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -30832,7 +30832,7 @@ msgstr "Entiteit"
 
 #: app/conf/navigation.conf:415
 msgid "Place"
-msgstr ""
+msgstr "Plaats"
 
 #: app/conf/navigation.conf:425
 msgid "Place editor"
@@ -30840,11 +30840,11 @@ msgstr ""
 
 #: app/conf/navigation.conf:495
 msgid "Collection"
-msgstr ""
+msgstr "Collectie"
 
 #: app/conf/navigation.conf:672
 msgid "Storage location"
-msgstr ""
+msgstr "Opslagplaats"
 
 #: app/conf/navigation.conf:682
 msgid "Storage location editor"
@@ -30852,7 +30852,7 @@ msgstr ""
 
 #: app/conf/navigation.conf:752
 msgid "Loan"
-msgstr "Lening"
+msgstr "Bruikleen"
 
 #: app/conf/navigation.conf:841
 msgid "Movement"
