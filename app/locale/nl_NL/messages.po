@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CollectiveAccess Providence\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 14:04-0400\n"
-"PO-Revision-Date: 2018-01-15 13:38+0100\n"
+"PO-Revision-Date: 2018-02-19 12:29+0100\n"
 "Last-Translator: Seth <Seth@collectiveacess.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/"
 "collectiveaccess/collectiveaccess-providence/language/nl_NL/)\n"
@@ -517,7 +517,7 @@ msgstr "Zoek"
 #: app/conf/navigation.conf:2558 app/conf/navigation.conf:2624
 #: app/conf/navigation.conf:2918 app/conf/navigation.conf:2976
 msgid "Advanced search"
-msgstr ""
+msgstr "Uitgebreid zoeken"
 
 #: app/controllers/find/SearchCollectionsController.php:112
 #: app/controllers/find/SearchEntitiesController.php:112
@@ -5416,7 +5416,7 @@ msgstr "%1 mag niet negatief zijn"
 
 #: app/lib/ca/BaseAdvancedSearchController.php:79
 msgid "%1 advanced search"
-msgstr "geavanceerd zoeken naar %1"
+msgstr "uitgebreid zoeken naar %1"
 
 #: app/lib/ca/BaseAdvancedSearchController.php:204
 #: app/lib/ca/BaseAdvancedSearchController.php:339
@@ -24988,11 +24988,11 @@ msgstr ""
 
 #: app/widgets/advancedSearchForm/advancedSearchFormWidget.php:43
 msgid "Advanced search form"
-msgstr "Geavanceerd zoekformulier"
+msgstr "Uitgebreid zoekformulier"
 
 #: app/widgets/advancedSearchForm/advancedSearchFormWidget.php:44
 msgid "Use advanced search forms in your dashboard"
-msgstr "Gebruik geavanceerde zoekformulieren op je dashboard"
+msgstr "Gebruik uitgebreid zoekformulieren op je dashboard"
 
 #: app/widgets/advancedSearchForm/advancedSearchFormWidget.php:68
 msgid "Search form"
@@ -25034,8 +25034,8 @@ msgstr ""
 #: themes/default/views/find/Search/search_advanced_form_html.php:44
 msgid "You must define a search form before you can use the advanced search."
 msgstr ""
-"U dient een zoekformulier te definiëren alvorens u de geavanceerde "
-"zoekfunctie kunt gebruiken."
+"U dient een zoekformulier te definiëren alvorens u de uitgebreid zoekfunctie "
+"kunt gebruiken."
 
 #: app/widgets/advancedSearchForm/views/search_advanced_form_html.php:47
 #: themes/default/views/find/Search/search_advanced_form_html.php:44
@@ -30824,7 +30824,7 @@ msgstr "Object"
 
 #: app/conf/navigation.conf:237 app/conf/navigation.conf:1335
 msgid "Representations"
-msgstr ""
+msgstr "Media"
 
 #: app/conf/navigation.conf:326
 msgid "Entity"
@@ -30873,7 +30873,7 @@ msgstr ""
 #: app/conf/navigation.conf:1981 app/conf/navigation.conf:2151
 #: app/conf/navigation.conf:2324 app/conf/navigation.conf:2500
 msgid "Basic search"
-msgstr ""
+msgstr "Zoek"
 
 #: app/conf/navigation.conf:2659
 msgid "QuickSearch"
@@ -31216,7 +31216,7 @@ msgstr "Sta gebruiker toe om configuratiecontrole te bekijken"
 
 #: app/conf/user_actions.conf:55
 msgid "Manage advanced search forms"
-msgstr "Beheer geavanceerde zoekformulieren"
+msgstr "Beheer uitgebreid zoekformulieren"
 
 #: app/conf/user_actions.conf:56
 msgid "Allow user to add, edit or remove advanced search forms for all users"
@@ -31370,7 +31370,7 @@ msgstr "Gebruiker toelaten om eigen voorkeuren in te stellen"
 
 #: app/conf/user_actions.conf:145
 msgid "Create advanced search forms"
-msgstr "Maak geavanceerde zoekformulieren aan"
+msgstr "Maak uitgebreid zoekformulieren aan"
 
 #: app/conf/user_actions.conf:146
 msgid "Allow user to create their own advanced search forms"
@@ -31378,7 +31378,7 @@ msgstr "Sta gebruiker toe om eigen geavanceerde zoekformulieren aan te maken"
 
 #: app/conf/user_actions.conf:149
 msgid "Edit advanced search forms"
-msgstr "Bewerk geavanceerde zoekformulieren"
+msgstr "Bewerk uitgebreid zoekformulieren"
 
 #: app/conf/user_actions.conf:150
 msgid "Allow user to edit existing advanced search forms"
@@ -31387,7 +31387,7 @@ msgstr ""
 
 #: app/conf/user_actions.conf:153
 msgid "Delete advanced search forms"
-msgstr "Verwijder geavanceerde zoekformulieren"
+msgstr "Verwijder uitgebreid zoekformulieren"
 
 #: app/conf/user_actions.conf:154
 msgid "Allow user to delete existing advanced search forms"
@@ -31396,7 +31396,7 @@ msgstr ""
 
 #: app/conf/user_actions.conf:157
 msgid "Use advanced search forms"
-msgstr "Gebruiker geavanceerde zoekformulieren"
+msgstr "Gebruiker uitgebreid zoekformulieren"
 
 #: app/conf/user_actions.conf:158
 msgid "Allow user to use advanced search forms"
