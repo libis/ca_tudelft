@@ -690,6 +690,10 @@ class RequestHTTP extends Request {
  */	
 	public function doAuthentication($pa_options) {	
 		global $AUTH_CURRENT_USER_ID;
+        /*libis_start*/
+        $pa_options["options"]['logintype'] = $pa_options['logintype'];
+        $pa_options["options"]['va_notification'] = $pa_options['va_notification'];
+        /*libis_end*/
 
 		$o_event_log = new Eventlog();
 		$vs_app_name = $this->config->get("app_name");

@@ -63,12 +63,20 @@
 				</div><!-- end  systemTitle -->
 				<div id="loginForm">
 					<?php print caFormTag($this->request, 'DoLogin', 'login'); ?>
-						<div class="loginFormElement"><?php print _t("User Name"); ?>:<br/>
+                        <!--libis_start-->
+                        <div class="loginFormElement"><?php print _t("Login Type"); ?>:<br/>
+                            <select name="logintype" id="logintype">
+                                <option value="collectiveaccess" selected="selected">Collective Access</option>
+                                <option value="surfnet">TU Delft</option>
+                            </select>
+                        </div>
+						<div class="loginFormElement" id="username_div"><?php print _t("User Name"); ?>:<br/>
 							<input type="text" name="username" size="25"/>
 						</div>
-						<div class="loginFormElement"><?php print _t("Password"); ?>:<br/>
+						<div class="loginFormElement" id = "password_div"><?php print _t("Password"); ?>:<br/>
 							<input type="password" name="password" size="25"/>
 						</div>
+                        <!--libis_end-->
 						<input name="redirect" type="hidden" value="<?php echo $this->getVar('redirect'); ?>" />
 						<div class="loginSubmitButton"><?php print caFormSubmitButton($this->request, __CA_NAV_ICON_LOGIN__, _t("Login"),"login", array('icon_position' => __CA_NAV_ICON_ICON_POS_RIGHT__)); ?></div>
 						<script type="text/javascript">
@@ -92,3 +100,19 @@
 		</div><!-- end center -->
 	</body>
 </html>
+<!--libis_start-->
+<script type="text/javascript">
+    $('#logintype').change(function(){
+        if($(this).val() == "surfnet"){
+            $( "#username_div" ).hide();
+            $( "#password_div" ).hide();
+        }else{
+            $( "#username_div" ).show();
+            $( "#password_div" ).show();
+        }
+    });
+    $(window).on('load', function(){
+        $('#logintype').val($("#logintype option:first").val())
+    });
+</script>
+<!--libis_end-->
