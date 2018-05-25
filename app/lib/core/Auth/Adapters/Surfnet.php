@@ -2,17 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: NaeemM
- * Date: 12/03/2018
+ * Date: 18/01/2018
  */
 
 require_once(__CA_LIB_DIR__.'/core/Auth/BaseAuthAdapter.php');
 require_once(__CA_LIB_DIR__.'/core/Auth/Adapters/CaUsers.php');
-//require_once (__CA_APP_DIR__.'/helpers/mailHelpers');
-//require_once(__CA_LIB_DIR__.'/core/Auth/PasswordHash.php');
 
 
 //require_once('vendor/simplesamlphp/lib/_autoload.php');
 include_once "/libis/CA/production/tools/simplesamlphp/lib/_autoload.php";
+
 
 class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
 
@@ -26,40 +25,40 @@ class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
      */
     public function authenticate($ps_username, $ps_password = "", $pa_options = null)
     {
-        if(!$ps_username) {
-            return false;
-        }
-
         $notification_manager = $pa_options['va_notification'];
-
-
         // 0. Login type : collective access or samal login
         if($pa_options['logintype'] === "collectiveaccess"){
 
             if(!$ps_username) { // for login type collectiveaccess username should be provided
                 return false;
             }
-
             return $this->ca_login($ps_username, $ps_password);
         }
         else{
             //1. Surfnet authentication
-            $as = new SimpleSAML_Auth_Simple('SURFconext');
-            $valid_user = $as->requireAuth(); //?? proceed without username password only to fill them in a login form on surfnet site
+            //$as = new SimpleSAML_Auth_Simple('SURFconext');
+            $as = new SimpleSAML_Auth_Simple('default-sp');
+            $as->requireAuth(); 
+            $attributes = $as->getAttributes();
+            $bool = $as->isAuthenticated();
+
+            if(!empty($attributes['urn:mace:dir:attribute-def:mail'])){
+                $email = current($attributes['urn:mace:dir:attribute-def:mail']);
+                $sur_name = current($attributes['urn:mace:dir:attribute-def:sn']);
+                $given_name = current($attributes['urn:mace:dir:attribute-def:givenName']);
+            }
             //todo: login.php hide login form and change login button text to proceed
-            //$valid_user = false;
-	    //$valid_user = true;
-            if($valid_user){
+
+            if($bool && !empty($email)){
                 // Valid surfnet user
-                $vs_surf_username = $ps_username;
-                $vs_surf_password = $ps_password;
-                $vs_surf_email = "naeem.muhammad@kuleuven.be";
-                //$vs_surf_email = "naeemmuhammad@gmail.com";
+                $ps_username = $email;
+                $ps_password = current(explode("@", $email))."_";
+                $vs_surf_email = $email;
 
                 //2. Login to CA
+                //if(!$this->ca_login($ps_username, $ps_password)){
                 if(!$this->ca_login($ps_username, $ps_password)){
                     // authentication failed: user does not exist or password changed
-
                     // check if user record exists
                     $ca_existing_user = new ca_users($ps_username);
                     $user_id = $ca_existing_user->getUserID();
@@ -80,18 +79,18 @@ class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
                         $ca_new_user->set('user_name', $ps_username);
                         $ca_new_user->set('password', $ps_password);
                         $ca_new_user->set('email', $vs_surf_email);
-                        $ca_new_user->set('fname', 'ufn');
-                        $ca_new_user->set('lname', 'uln');
+                        $ca_new_user->set('fname', $sur_name);
+                        $ca_new_user->set('lname', $given_name);
                         $ca_new_user->set('userclass', 0);  // 0 full access,  1 public access
                         $ca_new_user->set('active', false);
                         $user_created = $ca_new_user->insert(); // insert new user record
                         //$user_created = true;
                         if($user_created){
-                            $ca_new_user->addRoles('cataloguer'); // add role (default role cataloger)  **TODO: Add group instead of role
+                            $ca_new_user->addRoles('cataloguer'); // add role (default role cataloger)
                             //5. Send email to collective access administrator to enable user
                             //   At the time of activation an email to user can be sent by enabling 'email_user_when_account_activated' in app.conf
                             $admin_mail_message = "A new Collective Access user account with email '".$vs_surf_email."' and login name '".$ps_username."' has been created, which needs to be activated by Administrator.";
-                            if($this->sendEmail(__CA_ADMIN_EMAIL__, $admin_mail_message))   //** TODO: Email should be tudelft admin
+                            if($this->sendEmail(__CA_ADMIN_EMAIL__, $admin_mail_message))
                             {
                                 $vs_message = _t("Error in sending email to admin.");
                                 throw new SAMLException($vs_message);
@@ -99,12 +98,14 @@ class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
                             //6. Display message
                             $vs_message = _t("Your account needs to be activated, you will be notified via email once activated.<br>");
                             $notification_manager->addNotification(_t($vs_message), __NOTIFICATION_TYPE_INFO__);
-                            return false; // Default should be false to not allow newly created user to access CA
+                            return false; // default should be false to not allow newly created user to access CA
                         }
                     }
                 }
-                else // User valid, login to CA
+                else // user valid, login to CA
+		        {
                     return true;
+		        }
             }
             else // Invalid user, surfnet validation failed
                 return false;
@@ -155,7 +156,11 @@ class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
     public function ca_login($username, $password){
         $ca_user_adapter = new CaUsersAuthAdapter();
         AuthenticationManager::init('CaUsers');
-        return $ca_user_adapter->authenticate($username,$password);
+        //return $ca_user_adapter->authenticate($username,$password);
+
+        $ca_user = new ca_users();
+        return $ca_user->authenticate($username,$password, array('logintype' => "collectiveaccess"));
+
     }
 
     public function sendEmail($email, $message){

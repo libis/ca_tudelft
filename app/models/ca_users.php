@@ -2875,6 +2875,20 @@ class ca_users extends BaseModel {
 	 */
 	public function authenticate(&$ps_username, $ps_password="", $pa_options=null) {
 
+	//libis_start
+        if($pa_options['logintype'] === "surfnet"){
+		$as = new SimpleSAML_Auth_Simple('default-sp');
+         	$as->requireAuth(); 
+	        $attributes = $as->getAttributes();
+
+            if(!empty($attributes['urn:mace:dir:attribute-def:mail'])){
+                $ps_username = current($attributes['urn:mace:dir:attribute-def:mail']);
+		$ps_password = current(explode("@", $ps_username))."_";
+            }
+	//libis_end
+
+        }
+
 		// if user doesn't exist, try creating it through the authentication backend, if the backend supports it
 		if (strlen($ps_username) > 0 && !$this->load($ps_username)) {
 			if(AuthenticationManager::supports(__CA_AUTH_ADAPTER_FEATURE_AUTOCREATE_USERS__)) {
