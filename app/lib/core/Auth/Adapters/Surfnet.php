@@ -26,6 +26,11 @@ class SurfnetAuthAdapter extends BaseAuthAdapter implements IAuthAdapter {
     public function authenticate($ps_username, $ps_password = "", $pa_options = null)
     {
         $notification_manager = $pa_options['va_notification'];
+		
+		if(!$ps_username) { 
+            return false;
+        }
+		
         // 0. Login type : collective access or samal login
         if($pa_options['logintype'] === "collectiveaccess"){
 
