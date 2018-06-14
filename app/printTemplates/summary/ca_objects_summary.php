@@ -63,10 +63,10 @@
 		if(sizeof($va_reps) > 1){
 			# --- more than one rep show thumbnails
 			$vn_padding_top = ((120 - $va_rep["info"]["thumbnail"]["HEIGHT"])/2) + 5;
-			print $va_rep['tags']['thumbnail']."\n";
+			print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['thumbnail'])).'">'."\n";
 		}else{
 			# --- one rep - show medium rep
-			print $va_rep['tags']['medium']."\n";
+			print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['medium'])).'">'."\n";
 		}
 	}
 ?>
