@@ -61,7 +61,7 @@
     
     $headerimage = $this->request->getThemeDirectoryPath()."/graphics/logos/".$this->request->config->get('report_img');
 	if(file_exists($headerimage)){
-		$header->addImage($headerimage,array('height' => 30,'wrappingStyle' => 'inline'));
+		$header->addImage($headerimage,array('height' => 80,'wrappingStyle' => 'inline'));
 	}
 
     // Add footer
