@@ -4,8 +4,8 @@
 .imageTinyPlaceholder { width: 72px; height: 72px; background-color: #eee; float: left; margin: 0 5px 0 0; border-radius: 5px;}
 
 .titleText { font: "helvetica, sans-serif"; font-weight: bold; font-size: 14px; }
-.bodyText { font: "helvetica, sans-serif"; font-size: 11px; }
-.smallText { font: "helvetica, sans-serif"; font-size: 9px; }
+.bodyText { font: "helvetica, sans-serif"; font-size: 6px; }
+.smallText { font-family: Arial, Helvetica, sans-serif;  font-size: 12px; }
 
 .code128 { font: "code128"; font-size: 14px; }
 .code39 { font: "fre3of9x"; font-size: 14px; }
