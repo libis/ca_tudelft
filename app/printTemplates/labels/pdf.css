@@ -6,9 +6,19 @@
 .titleText { font: "helvetica, sans-serif"; font-weight: bold; font-size: 14px; }
 .bodyText { font: "helvetica, sans-serif"; font-size: 6px; }
 .smallText { font-family: Arial, Helvetica, sans-serif;  font-size: 12px; }
+.smallText2 { font-family: Arial, Helvetica, sans-serif;  font-size: 8px; }
 
 .code128 { font: "code128"; font-size: 14px; }
 .code39 { font: "fre3of9x"; font-size: 14px; }
 
 .pageBreak { page-break-before: always; }
 .clear { clear: both; line-height: 5px; }
+
+.d1{
+    width:70%;
+    height:100%;
+}
+.d2{
+    width:30%;
+    height:100%;
+}
