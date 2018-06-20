@@ -31,17 +31,19 @@
  * @pageSize letter
  * @pageOrientation portrait
  * @tables ca_objects
+ * @verticalGutter 0.225in
+ * @horizontalGutter 0.1125in
  * @marginLeft 0.5in
- * @marginTop 0.25in
- * @labelWidth 2.3in
+ * @marginTop 0.15in
+ * @labelWidth 2.5in
  * @labelHeight 1.5in
  *
  * ----------------------------------------------------------------------
  */
  
- 	$vo_result = $this->getVar('result');	
+ 	$vo_result = $this->getVar('result');
  ?>
- <div class="smallText2" style="width: 100%">
+ <div class="smallText2" style="width: 90%; word-wrap: break-word;clear:both; ">
      <div class="d1">
      <b><?php print $vo_result->getWithTemplate('^ca_objects.idno'); ?></b><br>
      <?php print strtoupper($vo_result->getWithTemplate('^ca_objects.objectName')); ?><br>
@@ -49,7 +51,7 @@
      <?php print 'Datering: '.$vo_result->getWithTemplate('^ca_objects.objectProductionDate'); ?><br>
      <?php print $vo_result->getWithTemplate("<unit relativeTo='ca_objects_x_storage_locations' restrictToRelationshipTypes='huidigeStandplaats' delimiter='->'>^ca_storage_locations.hierarchy.preferred_labels.name</unit>");?>
      </div>
-     <div class="thumbnail d2" style="position: absolute; left: 1in; top: 0.03in; width: 1.875in;">
+     <div class="d2">
          <?php print '<img width=\'60\' height=\'70\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vo_result->get('ca_object_representations.media.thumbnail', array('returnURL' => true)))).'">'; ?>
      </div>
  </div>

@@ -26,14 +26,16 @@
  * -=-=-=-=-=- CUT HERE -=-=-=-=-=-
  * Template configuration:
  *
- * @name TUDelft 
- * @type label
- * @pageSize letter
+ * @name TUDelft2
+ * @type page 
+ * @pageSize letter 
  * @pageOrientation portrait
  * @tables ca_objects
+ * @verticalGutter 0.225in
+ * @horizontalGutter 0.1125in
  * @marginLeft 0.5in
- * @marginTop 0.25in
- * @labelWidth 2.3in
+ * @marginTop 0.15in
+ * @labelWidth 2.5in
  * @labelHeight 1.5in
  *
  * ----------------------------------------------------------------------
@@ -41,7 +43,7 @@
  
  	$vo_result = $this->getVar('result');	
  ?>
- <div class="smallText" style="width: 100%; left: 1in; top: 0.1in;">
+ <div class="smallText" style="width: 90%; left: 1in; top: 0.1in; word-wrap: break-word ">
      <b><?php print $vo_result->getWithTemplate('^ca_objects.idno'); ?></b><br>
      <?php print strtoupper($vo_result->getWithTemplate('^ca_objects.objectName')); ?><br>
      <?php print $vo_result->getWithTemplate('^ca_objects.preferred_labels.name'); ?><br>
