@@ -36,13 +36,14 @@
 	
 	if($this->request->config->get('summary_header_enabled')) {
 		$vs_footer = '<table class="footerText" style="width: 100%;"><tr>';
-		if($this->request->config->get('summary_show_identifier')) {
-			$vs_footer .= "<td class='footerText'  style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".$t_item->getLabelForDisplay()." (".$t_item->get($t_item->getProperty('ID_NUMBERING_ID_FIELD')).")</td>";
-		}
-	
 		if($this->request->config->get('summary_show_timestamp')) {
 			$vs_footer .= "<td class='footerText'  style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".caGetLocalizedDate(null, array('dateFormat' => 'delimited'))."</td>";
 		}
+
+                if($this->request->config->get('summary_show_identifier')) {
+                        $vs_footer .= "<td class='footerText'  style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".$t_item->getLabelForDisplay()." (".$t_item->get($t_item->getProperty('ID_NUMBERING_ID_FIELD')).")</td>";
+                }
+
 		$vs_footer .= "</tr></table>";
 		
 		
