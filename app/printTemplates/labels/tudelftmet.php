@@ -28,31 +28,37 @@
  *
  * @name TUDelftmet
  * @type label
- * @pageSize letter
- * @pageOrientation portrait
+ * @pageSize a4
+ * @pageOrientation landscape
  * @tables ca_objects
- * @verticalGutter 0.225in
- * @horizontalGutter 0.1125in
- * @marginLeft 0.5in
- * @marginTop 0.15in
- * @labelWidth 2.5in
- * @labelHeight 1.5in
+ * @verticalGutter 0.0984in
+ * @horizontalGutter 0.18in
+ * @marginLeft 0.3in
+ * @marginTop 0.2854in
+ * @labelWidth 1.5in
+ * @labelHeight 2.5in
  *
  * ----------------------------------------------------------------------
  */
  
  	$vo_result = $this->getVar('result');
  ?>
- <div class="smallText2" style="width: 90%; word-wrap: break-word;clear:both; ">
-     <div class="d1">
+ <div class="smallText" style="width: 90%; word-wrap: break-word;clear:both; ">
+     <div style="padding-bottom: 5px">
+         <?php
+            if(!empty($vo_result->get('ca_object_representations.media.thumbnail', array('returnURL' => true))))
+                print '<img style="border:non" width=\'60\' height=\'70\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vo_result->get('ca_object_representations.media.thumbnail', array('returnURL' => true)))).'">';
+            else
+                print '<img style="border:non" width=\'60\' height=\'70\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($this->request->getThemeDirectoryPath()."/graphics/logos/image_placeholder.png")).'">';
+         ?>
+     </div>
+
+     <div >
      <b><?php print $vo_result->getWithTemplate('^ca_objects.idno'); ?></b><br>
      <?php print strtoupper($vo_result->getWithTemplate('^ca_objects.objectName')); ?><br>
      <?php print $vo_result->getWithTemplate('^ca_objects.preferred_labels.name'); ?><br>
      <?php print 'Datering: '.$vo_result->getWithTemplate('^ca_objects.objectProductionDate'); ?><br>
      <?php print $vo_result->getWithTemplate("<unit relativeTo='ca_objects_x_storage_locations' restrictToRelationshipTypes='huidigeStandplaats' delimiter='->'>^ca_storage_locations.hierarchy.preferred_labels.name</unit>");?>
-     </div>
-     <div class="d2">
-         <?php print '<img width=\'60\' height=\'70\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vo_result->get('ca_object_representations.media.thumbnail', array('returnURL' => true)))).'">'; ?>
      </div>
  </div>
 
