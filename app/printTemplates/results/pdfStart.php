@@ -34,16 +34,19 @@
 ?><!DOCTYPE html>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title><?php print $this->getVar('criteria_summary_truncated'); ?></title>
 		
 <?php
 	if(file_exists($this->getVar('base_path')."/local/pdf.css")){
 ?>
-		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/local/pdf.css" rel="stylesheet" />
+		<!--<link type="text/css" href="<?php /*print $this->getVar('base_path'); */?>/local/pdf.css" rel="stylesheet" />-->
+        <style><?php include $this->getVar('base_path')."/local/pdf.css"; ?></style>
 <?php	
 	} else {
 ?>
-		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
+		<!--<link type="text/css" href="<?php /*print $this->getVar('base_path'); */?>/pdf.css" rel="stylesheet" />-->
+        <style><?php include $this->getVar('base_path')."/pdf.css"; ?></style>
 <?php
 	}
 ?>

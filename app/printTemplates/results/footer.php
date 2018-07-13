@@ -47,9 +47,9 @@
 			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".(($vn_num_items == 1) ? _t('%1 item', $vn_num_items) : _t('%1 items', $vn_num_items))."</td>";
 		}
 	
-		if($this->request->config->get('report_show_timestamp')) {
+/*		if($this->request->config->get('report_show_timestamp')) {
 			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".caGetLocalizedDate(null, array('dateFormat' => 'delimited'))."</td>";
-		}
+		}*/
 		$vs_footer .= "</tr></table>";
 	
 		switch($this->getVar('PDFRenderer')) {
@@ -87,7 +87,7 @@
 <body>
 	<table class="footerText"><tr>
 <?php
-	print $vs_footer;
+	//print $vs_footer;
 ?>
 	</tr></table>
 </body>

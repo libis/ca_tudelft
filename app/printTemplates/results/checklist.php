@@ -53,7 +53,11 @@
 	$vn_start 				= 0;
 
 	print $this->render("pdfStart.php");
-	print $this->render("header.php");
+   	//libis_start
+   	// in order to use header on each page with wkhtmltopdf tool, we need to provide a separate header html file, in app/lib/ca/BaseFindController.php.
+	if($this->getVar('PDFRenderer') != "wkhtmltopdf")
+        	print $this->render("header.php");
+    //libis_end
 	print $this->render("footer.php");
 ?>
 		<div id='body'>
@@ -71,7 +75,8 @@
 				<td>
 <?php 
 					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'thumbnail')) {
-						print "<div class=\"imageTiny\"><img src='{$vs_path}'/></div>";
+						//print "<div class=\"imageTiny\"><img src='{$vs_path}'/></div>";
+						print '<img width=\'100\' height=\'100\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vs_path)).'">';
 					} else {
 ?>
 						<div class="imageTinyPlaceholder">&nbsp;</div>
@@ -82,7 +87,7 @@
 				</td><td>
 					<div class="metaBlock">
 <?php				
-					print "<div class='title'>".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name (^ca_objects.idno)')."</div>"; 
+					print "<div class='title'>".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name')."</div>"; 
 					foreach($va_display_list as $vn_placement_id => $va_display_item) {
 						if (!strlen($vs_display_value = $t_display->getDisplayValue($vo_result, $vn_placement_id, array('forReport' => true, 'purify' => true)))) {
 							if (!(bool)$t_display->getSetting('show_empty_values')) { continue; }
