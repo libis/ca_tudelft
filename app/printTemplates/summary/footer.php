@@ -36,6 +36,10 @@
 	
 	if($this->request->config->get('summary_header_enabled')) {
 		$vs_footer = '<table class="footerText" style="width: 100%;"><tr>';
+/*		if($this->request->config->get('summary_show_identifier')) {
+			$vs_footer .= "<td class='footerText'  style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".$t_item->getLabelForDisplay()." (".$t_item->get($t_item->getProperty('ID_NUMBERING_ID_FIELD')).")</td>";
+		}*/
+	
 		if($this->request->config->get('summary_show_timestamp')) {
 			$vs_footer .= "<td class='footerText'  style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".caGetLocalizedDate(null, array('dateFormat' => 'delimited'))."</td>";
 		}
@@ -79,9 +83,28 @@
 <html>
 <head>
 	<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
+    <script>
+        function dynvarpg() {
+            var vars = {};
+            var x = document.location.search.substring(1).split('&');
+
+            for (var i in x) {
+                var z = x[i].split('=',2);
+
+                if (!vars[z[0]]) {
+                    vars[z[0]] = unescape(z[1]);
+                }
+            }
+
+            document.getElementById('pagingnoText').innerHTML = 'page ' + vars.page + '/' + vars.topage;
+        }
+
+    </script>
 </head>
-<body>
+<body onload='dynvarpg();'>
+
 <?php
+    print "<div class='pagingText' id='pagingnoText' style='position: absolute; top: 0px; right: 0px;'> </div>";
 	print $vs_footer;
 ?>
 </body>

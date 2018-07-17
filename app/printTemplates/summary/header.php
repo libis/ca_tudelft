@@ -81,10 +81,11 @@
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
 <?php
 	}
-	if(file_exists($this->request->getThemeDirectoryPath()."/graphics/logos/".$this->request->config->get('report_img'))){
-		print '<img src="'.$this->request->getThemeDirectoryPath().'/graphics/logos/'.$this->request->config->get('report_img').'" class="headerImg"/>';
-	}
-	print "<div class='pagingText' id='pagingText' style='position: absolute; top: 0px; right: 0px;'> </div>";
+/*        if(file_exists($this->request->getThemeDirectoryPath()."/graphics/logos/".$this->request->config->get('report_img'))){
+            print '<img height= \"5px\" src="'.$this->request->getThemeDirectoryPath().'/graphics/logos/'.$this->request->config->get('report_img').'" class="headerImg"/>';
+        }*/
+
+	/*print "<div class='pagingText' id='pagingText' style='position: absolute; top: 0px; right: 0px;'> </div>";*/
 ?>
 
 	<script>

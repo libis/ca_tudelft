@@ -28,11 +28,11 @@
  *
  * @name Object summary
  * @type page
- * @pageSize letter
+ * @pageSize a4
  * @pageOrientation portrait
  * @tables ca_objects
  *
- * @marginTop 0.75in
+ * @marginTop 0.5in
  * @marginLeft 0.25in
  * @marginBottom 0.5in
  * @marginRight 0.25in
@@ -50,27 +50,35 @@
 	print $this->render("header.php");
 	print $this->render("footer.php");	
 ?>
+    <div>
+        <?php
+        if(file_exists($this->request->getThemeDirectoryPath()."/graphics/logos/".$this->request->config->get('report_img'))){
+            print '<img src="'.$this->request->getThemeDirectoryPath().'/graphics/logos/'.$this->request->config->get('report_img').'" class="headerImg"/>';
+        }
+        ?>
+    </div>
 	<br/>
 	<div class="title">
 		<?php print $t_item->getLabelForDisplay();?>
 	</div>
-	<div class="representationList">
-		
-<?php
-	$va_reps = $t_item->getRepresentations(array("thumbnail", "medium"));
 
-	foreach($va_reps as $va_rep) {
-		if(sizeof($va_reps) > 1){
-			# --- more than one rep show thumbnails
-			$vn_padding_top = ((120 - $va_rep["info"]["thumbnail"]["HEIGHT"])/2) + 5;
-			print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['thumbnail'])).'">'."\n";
-		}else{
-			# --- one rep - show medium rep
-			print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['medium'])).'">'."\n";
-		}
-	}
-?>
-	</div>
+    <div class="representationList">
+
+        <?php
+        $va_reps = $t_item->getRepresentations(array("thumbnail", "medium"));
+
+        foreach($va_reps as $va_rep) {
+            if(sizeof($va_reps) > 1){
+                # --- more than one rep show thumbnails
+                $vn_padding_top = ((120 - $va_rep["info"]["thumbnail"]["HEIGHT"])/2) + 5;
+                print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['thumbnail'])).'">'."\n";
+            }else{
+                # --- one rep - show medium rep
+                print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($va_rep['paths']['medium'])).'">'."\n";
+            }
+        }
+        ?>
+    </div>
 		
 <?php
 	foreach($va_placements as $vn_placement_id => $va_bundle_info){
