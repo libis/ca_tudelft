@@ -28,7 +28,7 @@
  *
  * @name PDF (checklist)
  * @type page
- * @pageSize letter
+ * @pageSize a4
  * @pageOrientation portrait
  * @tables ca_objects
  *
@@ -53,11 +53,11 @@
 	$vn_start 				= 0;
 
 	print $this->render("pdfStart.php");
-   	//libis_start
-   	// in order to use header on each page with wkhtmltopdf tool, we need to provide a separate header html file, in app/lib/ca/BaseFindController.php.
+    	//libis_start
+    	// in order to use header on each page with wkhtmltopdf tool, we need to provide a separate header html file, in app/lib/ca/BaseFindController.php.
 	if($this->getVar('PDFRenderer') != "wkhtmltopdf")
         	print $this->render("header.php");
-    //libis_end
+	    //libis_end
 	print $this->render("footer.php");
 ?>
 		<div id='body'>
@@ -74,9 +74,9 @@
 			<tr>
 				<td>
 <?php 
-					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'thumbnail')) {
+					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'preview')) {
 						//print "<div class=\"imageTiny\"><img src='{$vs_path}'/></div>";
-						print '<img width=\'100\' height=\'100\' src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vs_path)).'">';
+						print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vs_path)).'">';
 					} else {
 ?>
 						<div class="imageTinyPlaceholder">&nbsp;</div>
@@ -84,7 +84,7 @@
 					}	
 ?>								
 
-				</td><td>
+				</td><td width="70%">
 					<div class="metaBlock">
 <?php				
 					print "<div class='title'>".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name')."</div>"; 
