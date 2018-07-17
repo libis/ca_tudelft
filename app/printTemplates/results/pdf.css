@@ -23,7 +23,7 @@ span.footerText { font-family: "helvetica, sans-serif"; font-size: 12px; margin-
 .displayValue {}
 .title {font-weight:bold; font-size: 14px; }
 .metadata {line-height:1.5em;}
-.metaBlock {  margin-top: 10px; margin-left:40px; height:auto; width:120mm; }
+.metaBlock {  margin-top: 10px; margin-left:40px; height:auto; width:120mm; text-align: justify;}
 
 .pageBreak { page-break-before: always; }
 .clear { clear: both; line-height: 5px; }
