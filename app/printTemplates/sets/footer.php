@@ -35,21 +35,24 @@
  	
 	$vo_result 				= $this->getVar('result');
 	$vn_num_items			= (int)$vo_result->numHits();
+	$t_set					= $this->getVar("t_set");
 	
 	if($this->request->config->get('report_header_enabled')) {
 	
 		$vs_footer = '<table class="footerText" style="width: 100%;"><tr>';
+        if($this->request->config->get('report_show_timestamp')) {
+            $vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".caGetLocalizedDate(null, array('dateFormat' => 'delimited'))."</td>";
+        }
+
 		if($this->request->config->get('report_show_search_term')) {
-			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".$this->getVar('criteria_summary_truncated')."</td>";
+			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".$t_set->get("ca_sets.preferred_labels.name")." (".$vn_num_items." items)"."</td>";
 		}
 	
 		if($this->request->config->get('report_show_number_results')) {
-			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".(($vn_num_items == 1) ? _t('%1 item', $vn_num_items) : _t('%1 items', $vn_num_items))."</td>";
+			//$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".(($vn_num_items == 1) ? _t('%1 item', $vn_num_items) : _t('%1 items', $vn_num_items))."</td>";
+			$vs_footer .= "<td class='footerText' id='pagingnoText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'></td>";
 		}
-	
-		if($this->request->config->get('report_show_timestamp')) {
-			$vs_footer .= "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>".caGetLocalizedDate(null, array('dateFormat' => 'delimited'))."</td>";
-		}
+
 		$vs_footer .= "</tr></table>";
 	
 		switch($this->getVar('PDFRenderer')) {
@@ -83,10 +86,30 @@
 <html>
 <head>
 	<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
+    <script>
+        function dynvarpg() {
+            var vars = {};
+            var x = document.location.search.substring(1).split('&');
+
+            for (var i in x) {
+                var z = x[i].split('=',2);
+
+                if (!vars[z[0]]) {
+                    vars[z[0]] = unescape(z[1]);
+                }
+            }
+
+            document.getElementById('pagingnoText').innerHTML = 'page ' + vars.page + '/' + vars.topage;
+        }
+
+    </script>
 </head>
-<body>
+<body onload='dynvarpg();'>
 	<table class="footerText"><tr>
 <?php
+    //print "<div class='pagingText' id='pagingnoText' style='position: absolute; top: 0px; right: 0px;'> </div>";
+    //print "<td class='footerText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'>"."<div class='pagingText' id='pagingnoText' style='position: absolute; top: 0px; right: 0px;'> </div>"."</td>";
+    //print "<td class='footerText' id='pagingnoText' style='font-family: \"Sans Light\"; font-size: 12px; text-align: center;'></td>";
 	print $vs_footer;
 ?>
 	</tr></table>

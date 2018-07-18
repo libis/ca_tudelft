@@ -32,7 +32,7 @@
  * @pageOrientation portrait
  * @tables ca_objects
  *
- * @marginTop 0.75in
+ * @marginTop 0.5in
  * @marginLeft 0.25in
  * @marginBottom 0.5in
  * @marginRight 0.25in
@@ -44,27 +44,23 @@
 	$vn_num_items			= (int)$vo_result->numHits();
 	$t_set					= $this->getVar("t_set");
 
-$t_display = new ca_bundle_displays();
-$t_display->load(1);
-$va_display_list = $t_display->getPlacements();
+    $t_display = new ca_bundle_displays();
+    $t_display->load(12); //FIXED display template
+    $va_display_list = $t_display->getPlacements();
 	
 	print $this->render("pdfStart.php");
 	print $this->render("header.php");
 	print $this->render("footer.php");
 ?>
+<div>
+    <?php
+    if(file_exists($this->request->getThemeDirectoryPath()."/graphics/logos/".$this->request->config->get('report_img'))){
+        print '<img src="'.$this->request->getThemeDirectoryPath().'/graphics/logos/'.$this->request->config->get('report_img').'" class="headerImg"/>';
+    }
+    ?>
+    <br>
+</div>
 		<div id='body'>
-			<div class="row">
-				<table>
-				<tr><td>
-					<div class='title'><?php print $t_set->get("ca_sets.preferred_labels.name"); ?></div>
-<?php
-					if($t_set->get("description")){
-						print "<p>".$t_set->get("description")."</p>";
-					}
-?>
-				</td></tr>
-				</table>
-			</div>
 <?php
 
 		$vo_result->seek(0);
@@ -77,10 +73,9 @@ $va_display_list = $t_display->getPlacements();
 			<div class="row">
 			<table>
 			<tr>
-				<td><b><?php print $vn_c; ?></b>&nbsp;&nbsp;</td>
 				<td>
 <?php 
-					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'thumbnail')) {
+					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'preview')) {
 						print "<div class=\"imageTiny\"><img src='{$vs_path}'/></div>";
 					} else {
 ?>
@@ -89,20 +84,27 @@ $va_display_list = $t_display->getPlacements();
 					}	
 ?>								
 
-				</td><td>
+				</td><td style="width: 70%">
 					<div class="metaBlock">
 <?php				
-					print "<div class='title'>".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name (^ca_objects.idno)')."</div>";
+					print "<div><span class='meta' style='font-size: 18px; font-weight: bold; text-align: left'>".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name')."</span></div>";
 
-foreach($va_display_list as $vn_placement_id => $va_display_item) {
-    if (!strlen($vs_display_value = $t_display->getDisplayValue($vo_result, $vn_placement_id, array('forReport' => true, 'purify' => true)))) {
-        if (!(bool)$t_display->getSetting('show_empty_values')) { continue; }
-        $vs_display_value = "&lt;"._t('not defined')."&gt;";
-    }
+                    foreach($va_display_list as $vn_placement_id => $va_display_item) {
+                        if (!strlen($vs_display_value = $t_display->getDisplayValue($vo_result, $vn_placement_id, array('forReport' => true, 'purify' => true)))) {
+                            if (!(bool)$t_display->getSetting('show_empty_values')) { continue; }
+                            $vs_display_value = "&lt;"._t('not defined')."&gt;";
+                        }
 
-    print "<div class='metadata'><span class='displayHeader'>".$va_display_item['display']."</span>: <span class='displayValue' >".(strlen($vs_display_value) > 1200 ? strip_tags(substr($vs_display_value, 0, 1197))."..." : $vs_display_value)."</span></div>";
-}
-
+                        $label = current($va_display_item['settings']['label']);
+                        if(empty($label) || strlen($label)<1){
+                            $label = $va_display_item['display'];
+                            $pos = strpos($label, "Object");
+                            if ($pos !== false) {
+                                $label = substr_replace($label, "", $pos, strlen("Object"));
+                            }
+                        }
+                        print '<div class="data"><span class="label">'."{$label} </span><span class='meta'> {$vs_display_value}</span></div>\n";
+                    }
 ?>
 					</div>				
 				</td>	
