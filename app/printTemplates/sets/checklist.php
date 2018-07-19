@@ -45,7 +45,7 @@
 	$t_set					= $this->getVar("t_set");
 
     $t_display = new ca_bundle_displays();
-    $t_display->load(12); //FIXED display template
+    $t_display->load(1); //FIXED display template
     $va_display_list = $t_display->getPlacements();
 	
 	print $this->render("pdfStart.php");
