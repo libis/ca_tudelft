@@ -2891,57 +2891,66 @@ class ca_users extends BaseModel {
                 	'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
         	        'MESSAGE' => _t('User login accessed from srufnet: %1', $ps_username)
 	            ));  
-                    if(!$this->load($ps_username)){ // check if user exists, user has already been successfully authenticated by surfnet
-                        //its a new user, create user and send email to administrator
+                if(!$this->load($ps_username)){ // check if user exists, user has already been successfully authenticated by surfnet
+                    //its a new user, create user and send email to administrator
+                    $this->opo_log->log(array(
+                        'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
+                        'MESSAGE' => _t('New user, create account: %1', $ps_username)
+                    ));
+                    $ca_new_user = new ca_users();
+                    $ca_new_user->setMode(ACCESS_WRITE);
+                    $ca_new_user->set('user_name', $ps_username);
+                    $ca_new_user->set('password', $ps_password);
+                    $ca_new_user->set('email', $ps_username); //id is the username
+                    $ca_new_user->set('fname', $user_data['sname']);
+                    $ca_new_user->set('lname', $user_data['givenname']);
+                    $ca_new_user->set('userclass', 0);  // 0 full access,  1 public access
+                    $ca_new_user->set('active', false);
+
+                    $user_created = $ca_new_user->insert(); // insert new user record
+                    if($user_created){
+                        $ca_new_user->addRoles('cataloguer'); // add role (default role cataloger)
+                        //Send email to collective access administrator to activate user account
+                        // At the time of activation an email to user can be sent by enabling 'email_user_when_account_activated' in app.conf
+                        try{
+                            $admin_mail_message = "A new Collective Access user account has been created with login name '".$ps_username."'. Account needs to be activated by Administrator. Login to Collective Access: https://".$_SERVER['SERVER_NAME'];
+                            caSendmail(__CA_ADMIN_EMAIL__,__CA_ADMIN_EMAIL__, "New Collective Access User", $admin_mail_message);
+                        } catch (Exception $e) {
+                            $this->opo_log->log(array(
+                                'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
+                                'MESSAGE' => _t('There was an error while sending email to admin after a new user has been created successfully. The message was %1 : %2', get_class($e), $e->getMessage())
+                            ));
+                            return false;
+                        }
+
                         $this->opo_log->log(array(
                             'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
-                            'MESSAGE' => _t('New user, create account: %1', $ps_username)
+                            'MESSAGE' => _t('user account (%1) created, email sent to admin (%2)', $ps_username, __CA_ADMIN_EMAIL__)
                         ));
-                        $ca_new_user = new ca_users();
-                        $ca_new_user->setMode(ACCESS_WRITE);
-                        $ca_new_user->set('user_name', $ps_username);
-                        $ca_new_user->set('password', $ps_password);
-                        $ca_new_user->set('email', $ps_username); //id is the username
-                        $ca_new_user->set('fname', $user_data['sname']);
-                        $ca_new_user->set('lname', $user_data['givenname']);
-                        $ca_new_user->set('userclass', 0);  // 0 full access,  1 public access
-                        $ca_new_user->set('active', false);
-        
-                        $user_created = $ca_new_user->insert(); // insert new user record
-                        if($user_created){
-                            $ca_new_user->addRoles('cataloguer'); // add role (default role cataloger)
-                            //Send email to collective access administrator to activate user account
-                            // At the time of activation an email to user can be sent by enabling 'email_user_when_account_activated' in app.conf
-                            try{
-				$admin_mail_message = "A new Collective Access user account has been created with login name '".$ps_username."'. Account needs to be activated by Administrator. Login to Collective Access: https://".$_SERVER['SERVER_NAME'];
-                                caSendmail(__CA_ADMIN_EMAIL__,__CA_ADMIN_EMAIL__, "New Collective Access User", $admin_mail_message);
-                            } catch (Exception $e) {
-                                $this->opo_log->log(array(
-                                    'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
-                                    'MESSAGE' => _t('There was an error while sending email to admin after a new user has been created successfully. The message was %1 : %2', get_class($e), $e->getMessage())
-                                ));
-                                return false;
-                            }
-    
-                            $this->opo_log->log(array(
-                                'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
-                                'MESSAGE' => _t('user account (%1) created, email sent to admin (%2)', $ps_username, __CA_ADMIN_EMAIL__)
-                            ));
-    
-                            //Display message
-                            $vs_message = _t("Your account needs to be activated, you will be notified via email once activated.<br>");
-                            $notification_manager->addNotification(_t($vs_message), __NOTIFICATION_TYPE_INFO__);
-                            //return false; // default should be false to not allow newly created user to access CA
-                        }else
-                        {
-                            $this->opo_log->log(array(
-                                'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
-                                'MESSAGE' => _t('Error in creating user account for user: %1', $ps_username)
-                            ));
-                        }
-                    }
 
-	        }
+                        //Display message
+                        $vs_message = _t("Your account needs to be activated, you will be notified via email once activated.<br>");
+                        $notification_manager->addNotification(_t($vs_message), __NOTIFICATION_TYPE_INFO__);
+                        //return false; // default should be false to not allow newly created user to access CA
+                    }else
+                    {
+                        $this->opo_log->log(array(
+                            'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
+                            'MESSAGE' => _t('Error in creating user account for user: %1', $ps_username)
+                        ));
+                    }
+                }
+
+        }
+        //check if logintype is collective access and username is a tudelft email, if yes, dont allow user to login
+        if($pa_options['logintype'] === "collectiveaccess" && filter_var($ps_username, FILTER_VALIDATE_EMAIL)
+            && strpos($ps_username, '@tudelft.nl') !== false){
+            $this->opo_log->log(array(
+                'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
+                'MESSAGE' => _t('TU Delft user( %1) tried to login as collective access user.', $ps_username)
+            ));
+            return false;
+        }
 		//libis_end
 
 		// if user doesn't exist, try creating it through the authentication backend, if the backend supports it
