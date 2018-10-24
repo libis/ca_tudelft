@@ -2886,11 +2886,11 @@ class ca_users extends BaseModel {
 	            // coming from surfnet after successful authentication
         	    $notification_manager = $pa_options['va_notification'];
 	            $user_data = unserialize(end(explode('surfnet.', $ps_password))); // get user data sent from simplesaml authenticator script
-        	    $ps_password = current(explode("@", $ps_username)) . "_"; //create password from username
+        	    $ps_password = current(explode("@", $ps_username)) . "_".$this->_CONFIG->get('surfnet_user_key'); //create password from username
 	            $this->opo_log->log(array(
                 	'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
         	        'MESSAGE' => _t('User login accessed from srufnet: %1', $ps_username)
-	            ));  
+	            ));
                 if(!$this->load($ps_username)){ // check if user exists, user has already been successfully authenticated by surfnet
                     //its a new user, create user and send email to administrator
                     $this->opo_log->log(array(
