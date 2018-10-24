@@ -64,7 +64,7 @@
 				<div id="loginForm">
 					<?php print caFormTag($this->request, 'DoLogin', 'login'); ?>
                         <!--libis_start-->
-                        <div class="loginFormElement"><?php print _t("Login Type"); ?>:<br/> 
+                        <div class="loginFormElement"><?php print _t("Login type"); ?>:<br/>
                             <select name="logintype" id="logintype">
                                 <option value="collectiveaccess" selected="selected">Collective Access</option>
                                 <option value="surfnet">TU Delft</option>
