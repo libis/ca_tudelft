@@ -2881,11 +2881,10 @@ class ca_users extends BaseModel {
         	    echo "<meta http-equiv='refresh' content='0; url=https://saml.collectiveaccess.tudelft.nl/simplesaml/surfnetauthenticatorpr.php?action=login'>";
 	            exit;
 	        }
-
-        	if(filter_var($ps_username, FILTER_VALIDATE_EMAIL) && strpos($ps_password, "surfnet.") === 0) {
+		if(filter_var($ps_username, FILTER_VALIDATE_EMAIL) && strpos($ps_password, $this->_CONFIG->get('surfnet_user_key')) === 0) {
 	            // coming from surfnet after successful authentication
         	    $notification_manager = $pa_options['va_notification'];
-	            $user_data = unserialize(end(explode('surfnet.', $ps_password))); // get user data sent from simplesaml authenticator script
+		    $user_data = unserialize(end(explode($this->_CONFIG->get('surfnet_user_key'), $ps_password))); // get user data sent from simplesaml authenticator script
         	    $ps_password = current(explode("@", $ps_username)) . "_".$this->_CONFIG->get('surfnet_user_key'); //create password from username
 	            $this->opo_log->log(array(
                 	'CODE' => 'SYS', 'SOURCE' => 'ca_users/authenticate',
