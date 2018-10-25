@@ -2912,7 +2912,7 @@ class ca_users extends BaseModel {
                         //Send email to collective access administrator to activate user account
                         // At the time of activation an email to user can be sent by enabling 'email_user_when_account_activated' in app.conf
                         try{
-                            $admin_mail_message = "A new Collective Access user account has been created with login name '".$ps_username."'. Account needs to be activated by Administrator. Login to Collective Access: https://".$_SERVER['SERVER_NAME'];
+							$admin_mail_message = "A new CollectiveAccess user account has been created with login name '".$ps_username."'. The account needs to be activated by a TU Delft system administrator. Please do not forget to change the role and group access settings!. Login to CollectiveAccess: https://".$_SERVER['SERVER_NAME'];
                             caSendmail(__CA_ADMIN_EMAIL__,__CA_ADMIN_EMAIL__, "New Collective Access User", $admin_mail_message);
                         } catch (Exception $e) {
                             $this->opo_log->log(array(
@@ -2928,7 +2928,7 @@ class ca_users extends BaseModel {
                         ));
 
                         //Display message
-                        $vs_message = _t("Your account needs to be activated, you will be notified via email once activated.<br>");
+						$vs_message = _t("Your account needs to be activated by the system administrator. You will be notified via email once your account has been activated.<br>");
                         $notification_manager->addNotification(_t($vs_message), __NOTIFICATION_TYPE_INFO__);
                         //return false; // default should be false to not allow newly created user to access CA
                     }else
