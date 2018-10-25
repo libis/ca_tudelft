@@ -61,13 +61,13 @@
 	print $this->render("footer.php");
 ?>
 		<div id='body'>
-            <table cellspacing="10">
-                <tr style="align-content: center">
-                    <th width="20px"><?php print "Nr."; ?></th>
-                    <th width="180px"><?php print "Foto"; ?></th>
-                    <th width="100px"><?php print "Inv. Nr."; ?></th>
-                    <th width="180px"><?php print "Titel"; ?></th>
-                    <th width="80px"><?php print "Afmetingen"; ?></th>
+            <table cellspacing="5">
+                <tr>
+                    <th width="10px"><?php print "Nr."; ?></th>
+                    <th width="100px" style="padding-right: 40px"><?php print "Inv. Nr."; ?></th>
+                    <th width="120px" style="padding-right: 50px"><?php print "Titel"; ?></th>
+                    <th width="80px" style="padding-right: 50px"><?php print "Afmetingen"; ?></th>
+                    <th style="width: 400px; align-content: center"><?php print "Foto"; ?></th>
                 </tr>
             </table>
 
@@ -80,39 +80,40 @@
 			$vn_object_id = $vo_result->get('ca_objects.object_id');		
 ?>
             <div class="row">
-                <table cellspacing="10">
+                <table cellspacing="">
 			<tr>
-                <td width="20px" align="left"><?php print $vn_line_count++ ?></td>
-				<td>
-<?php 
-					if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'preview')) {
-						print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vs_path)).'">';
-					} else {
-?>
-						<?php
-                            print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($this->request->getThemeDirectoryPath()."/graphics/logos/image_placeholder.png")).'">';
-                        ?>
-<?php					
-					}	
-?>								
-
-				</td><td width="70%">
+                <td width="10px"><?php print $vn_line_count++ ?></td>
+                <td width="60%">
 					<div class="metaBlock">
-                        <table cellspacing="10">
-                            <tr style="align-content: left">
-                                <td style="width: 20%; padding-right: 10px">
+                        <table>
+                            <tr>
+                                <td width="100px">
                                     <?php print "<div class='metadata'><span class='displayValue' >".$vo_result->getWithTemplate('^ca_objects.idno')."</span></div>"; ?>
                                 </td>
-                                <td style="width: 50%; padding-right: 10px">
+                                <td width="120px" style="padding-right: 10px">
                                     <?php print "<div class='metadata'><span class='displayValue' >".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name')."</span></div>"; ?>
                                 </td>
-                                <td style="width: 30%; padding-right: 10px">
+                                <td width="80px">
                                     <?php print "<div class='metadata'><span class='displayValue' >".$vo_result->getWithTemplate('<ifdef code="ca_objects.dimensions.dimensions_width">^ca_objects.dimensions.dimensions_width B<br/></ifde><ifdef code="ca_objects.dimensions.dimensions_depth">^ca_objects.dimensions.dimensions_depth D <br/></ifdef><ifdef code="ca_objects.dimensions.dimensions_height">^ca_objects.dimensions.dimensions_height H</ifdef>')."</span></div>"; ?>
                                 </td>
                             </tr>
                         </table>
 					</div>				
-				</td>	
+				</td>
+                <td style="width: 400px; align-content: left">
+                    <?php
+                    if ($vs_path = $vo_result->getMediaPath('ca_object_representations.media', 'preview')) {
+                        print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($vs_path)).'">';
+                    } else {
+                        ?>
+                        <?php
+                        print '<img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($this->request->getThemeDirectoryPath()."/graphics/logos/image_placeholder.png")).'">';
+                        ?>
+                        <?php
+                    }
+                    ?>
+
+                </td>
 			</tr>
                 </table>
             </div>
