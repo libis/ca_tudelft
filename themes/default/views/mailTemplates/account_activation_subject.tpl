@@ -26,5 +26,5 @@
  * ----------------------------------------------------------------------
  */
 
-	print "[".$this->request->config->get("app_display_name")."] "._t("Your registration has been approved");
+	print _t("Your TU Delft CollectiveAccess registration has been approved");
 ?>

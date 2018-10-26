@@ -25,12 +25,11 @@
  *
  * ----------------------------------------------------------------------
  */
-print _t("<p>Your \"%1\" registration has been approved, you may now login.</p>
+print _t("<p>Your CollectiveAccess user account has been activated. You can now login to CollectiveAccess: ".$this->request->config->get("site_host").".</p>
 
 <p>Regards,<br/>
-the Staff</p>
+TU Delft System Administrator</p>
 
-", $this->request->config->get("app_display_name"));
+");
 
-	print "<p>".$this->request->config->get("site_host")."</p>";
 ?>
