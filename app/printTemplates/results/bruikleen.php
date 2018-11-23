@@ -64,10 +64,10 @@
             <table cellspacing="5">
                 <tr>
                     <th width="10px"><?php print "Nr."; ?></th>
-                    <th width="100px" style="padding-right: 40px"><?php print "Inv. Nr."; ?></th>
-                    <th width="120px" style="padding-right: 50px"><?php print "Titel"; ?></th>
-                    <th width="80px" style="padding-right: 50px"><?php print "Afmetingen"; ?></th>
-                    <th style="width: 400px; align-content: center"><?php print "Foto"; ?></th>
+                    <th width="100px" style="padding-left: 12px;padding-right: 40px"><?php print "Inv. Nr."; ?></th>
+                    <th width="120px" style="padding-right: 40px" align="left"><?php print "Titel"; ?></th>
+                    <th width="80px" style="padding-right: 40px"><?php print "Afmetingen"; ?></th>
+                    <th width="400px" align="center"><?php print "Foto"; ?></th>
                 </tr>
             </table>
 
@@ -87,10 +87,10 @@
 					<div class="metaBlock">
                         <table>
                             <tr>
-                                <td width="100px">
+                                <td width="100px" align="left">
                                     <?php print "<div class='metadata'><span class='displayValue' >".$vo_result->getWithTemplate('^ca_objects.idno')."</span></div>"; ?>
                                 </td>
-                                <td width="120px" style="padding-right: 10px">
+                                <td width="120px" style="padding-right: 10px" align="left">
                                     <?php print "<div class='metadata'><span class='displayValue' >".$vo_result->getWithTemplate('^ca_objects.preferred_labels.name')."</span></div>"; ?>
                                 </td>
                                 <td width="80px">
