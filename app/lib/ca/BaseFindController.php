@@ -464,7 +464,11 @@
 						$this->render('Results/xlsx_results.php');
 						return;
                     case '_docx':
-                        $this->render('Results/docx_results.php');
+                        if ($X == "ca_loans") {
+                                $this->render('Results/contract.php');
+                        } else {
+                                $this->render('Results/docx_results.php');
+                        }
                         return;						
 					case '_csv':
 						$vs_delimiter = ",";
