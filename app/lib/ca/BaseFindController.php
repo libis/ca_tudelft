@@ -452,7 +452,7 @@
 			$this->view->setVar('criteria_summary', $vs_criteria_summary = $this->getCriteriaForDisplay());	// add displayable description of current search/browse parameters
 			$this->view->setVar('criteria_summary_truncated', mb_substr($vs_criteria_summary, 0, 60).((mb_strlen($vs_criteria_summary) > 60) ? '...' : ''));
 			$po_result->seek(0); // reset result before exporting anything
-			
+                        $x = $this->opo_result_context->tableName();			
 			$this->opo_result_context->setParameter('last_export_type', $ps_output_type);
 			$this->opo_result_context->saveContext();
 			
@@ -464,7 +464,7 @@
 						$this->render('Results/xlsx_results.php');
 						return;
                     case '_docx':
-                        if ($X == "ca_loans") {
+                        if ($x == "ca_loans") {
                                 $this->render('Results/contract.php');
                         } else {
                                 $this->render('Results/docx_results.php');
