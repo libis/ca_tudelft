@@ -265,7 +265,7 @@ while($vo_result->nextHit()) {
 
 	$Cell->addText('hierna te noemen: bruikleennemer,', $styleContentFontU);
 
-	$Cell->addText('hierna gezamelijk te noemen: de partijen,', $styleContentFont);
+	$Cell->addText('hierna gezamenlijk te noemen: de partijen,', $styleContentFont);
 
 	$Cell->addText('komen als volgt overeen:', $styleContentFont);
 
